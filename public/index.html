@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rolling Kitchen | Order Pickup</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="nav">
+        <a class="brand" href="index.html">Rolling Kitchen</a>
+        <a class="staff-link" href="staff/orders.html">Staff screen</a>
+      </nav>
+      <div class="hero-content">
+        <p class="eyebrow">Food truck pickup</p>
+        <h1>Order lunch, then pick it up hot.</h1>
+        <p class="intro">
+          Using this page to help develop the customer ordering to staff
+          dashboard workflow. This is a practice project, not a real food truck.
+          Please do not place an order or call the phone number in the staff
+          dashboard, as it is not monitored. This is not a drill.
+        </p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section aria-labelledby="menu-title">
+        <div class="section-heading">
+          <p class="eyebrow">Today's menu</p>
+          <h2 id="menu-title">Choose your order</h2>
+        </div>
+        <div class="menu-grid" id="menu" aria-live="polite"></div>
+      </section>
+
+      <aside class="cart" aria-labelledby="cart-title">
+        <p class="eyebrow">Pickup cart</p>
+        <h2 id="cart-title">Your order</h2>
+        <div id="cart-items" class="cart-items">
+          <p class="empty-state">Nothing added yet.</p>
+        </div>
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="cart-total">$0.00</strong>
+        </div>
+
+        <form class="pickup-form">
+          <label>
+            Pickup name
+            <input type="text" name="name" placeholder="Your name" disabled />
+          </label>
+          <label>
+            Phone number
+            <input
+              type="tel"
+              name="phone"
+              placeholder="For order updates"
+              disabled
+            />
+          </label>
+          <button class="checkout-button" type="button" disabled>
+            Checkout coming in a later phase
+          </button>
+        </form>
+        <p class="phase-note">
+          No order is submitted and no payment is collected in this version.
+        </p>
+      </aside>
+    </main>
+
+    <footer>
+      Practice project: customer ordering to staff dashboard workflow.
+    </footer>
+  </body>
+</html>

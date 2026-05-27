@@ -1,0 +1,14 @@
+# Local secrets and Cloudflare development values
+.dev.vars
+.env
+.env.*
+!.env.example
+
+# Installed packages and generated output, if introduced later
+node_modules/
+.wrangler/
+dist/
+
+# Operating system files
+.DS_Store
+Thumbs.db

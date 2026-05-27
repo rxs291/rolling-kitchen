@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rolling Kitchen | Staff Orders</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+      .staff-shell {
+        margin: 0 auto;
+        max-width: 960px;
+        padding: 3rem clamp(1.25rem, 5vw, 3rem);
+      }
+
+      .staff-header {
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+      }
+
+      .back-link {
+        color: var(--accent-dark);
+      }
+
+      .placeholder {
+        background: var(--surface);
+        border: 2px dashed var(--line);
+        border-radius: 1rem;
+        padding: clamp(2rem, 8vw, 4rem);
+        text-align: center;
+      }
+
+      .placeholder p {
+        color: var(--muted);
+        margin: 1rem auto 0;
+        max-width: 520px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="staff-shell">
+      <header class="staff-header">
+        <div>
+          <p class="eyebrow">Staff dashboard</p>
+          <h1>Incoming orders</h1>
+        </div>
+        <a class="back-link" href="../index.html">Back to customer site</a>
+      </header>
+
+      <section class="placeholder">
+        <h2>No submitted orders yet</h2>
+        <p>
+          This page will become the food truck's private order screen after we
+          add backend endpoints and database storage. For now, it confirms
+          that the second interface exists in the static scaffold.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,268 @@
+:root {
+  --background: #fffaf2;
+  --surface: #ffffff;
+  --text: #211c16;
+  --muted: #665b50;
+  --accent: #dd4c29;
+  --accent-dark: #a7331b;
+  --line: #eadfce;
+  --highlight: #ffe0b4;
+  --shadow: 0 18px 42px rgba(53, 36, 18, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.hero {
+  background: var(--text);
+  color: #fffaf2;
+  padding: 1.5rem clamp(1.25rem, 5vw, 4.5rem) 4rem;
+}
+
+.nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 3.75rem;
+  max-width: 1120px;
+}
+
+.brand {
+  color: var(--highlight);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.staff-link {
+  border: 1px solid rgba(255, 250, 242, 0.35);
+  border-radius: 999px;
+  color: #fffaf2;
+  padding: 0.55rem 1rem;
+  text-decoration: none;
+}
+
+.hero-content {
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin: 0 0 0.65rem;
+  text-transform: uppercase;
+}
+
+.hero .eyebrow {
+  color: var(--highlight);
+}
+
+h1 {
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+  max-width: 690px;
+}
+
+.intro {
+  color: #dbcfc1;
+  font-size: 1.05rem;
+  margin: 0;
+  max-width: 590px;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  margin: -1.8rem auto 0;
+  max-width: 1120px;
+  padding: 0 clamp(1.25rem, 5vw, 4.5rem) 4rem;
+}
+
+.section-heading {
+  padding: 3.6rem 0 1.5rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.menu-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.menu-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  display: flex;
+  gap: 1.25rem;
+  justify-content: space-between;
+  padding: 1.4rem;
+}
+
+.menu-card h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+}
+
+.menu-card p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 430px;
+}
+
+.menu-actions {
+  align-items: end;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: 80px;
+}
+
+button {
+  background: var(--accent);
+  border: 0;
+  border-radius: 0.55rem;
+  color: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+button:disabled {
+  background: #d9cec1;
+  cursor: not-allowed;
+}
+
+.cart {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  margin-top: 0;
+  padding: 1.5rem;
+}
+
+.cart-items {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  margin: 1.25rem 0;
+  min-height: 75px;
+  padding: 0.75rem 0;
+}
+
+.empty-state {
+  color: var(--muted);
+}
+
+.cart-line {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.cart-line span {
+  color: var(--muted);
+  display: block;
+  font-size: 0.9rem;
+}
+
+.line-controls {
+  align-items: center;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.line-controls button {
+  border-radius: 50%;
+  height: 1.75rem;
+  padding: 0;
+  width: 1.75rem;
+}
+
+.total-row {
+  display: flex;
+  font-size: 1.1rem;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.pickup-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+input {
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  display: block;
+  font: inherit;
+  margin-top: 0.35rem;
+  padding: 0.7rem;
+  width: 100%;
+}
+
+.checkout-button {
+  margin-top: 0.4rem;
+  padding: 0.8rem;
+}
+
+.phase-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 1rem 0 0;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+  }
+
+  .section-heading {
+    padding-top: 2rem;
+  }
+
+  .cart {
+    order: -1;
+  }
+}
