@@ -24,6 +24,10 @@ const menuContainer = document.querySelector("#menu");
 const cartItemsContainer = document.querySelector("#cart-items");
 const cartTotal = document.querySelector("#cart-total");
 
+const pickupForm = document.querySelector(".pickup-form");
+const checkoutButton = document.querySelector(".checkout-button");
+const checkoutMessage = document.querySelector("#checkout-message");
+
 function formatCurrency(priceCents) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -33,7 +37,8 @@ function formatCurrency(priceCents) {
 
 function addToCart(itemId) {
   cart.set(itemId, (cart.get(itemId) || 0) + 1);
-  renderCart();
+  renderCart(); 
+ 
 }
 
 function removeFromCart(itemId) {
@@ -45,8 +50,9 @@ function removeFromCart(itemId) {
     cart.set(itemId, newQuantity);
   }
 
-  renderCart();
+  renderCart(); 
 }
+ 
 
 function renderMenu() {
   menuContainer.innerHTML = menu
@@ -108,6 +114,26 @@ function renderCart() {
 
   cartItemsContainer.innerHTML = cartLines.join("");
   cartTotal.textContent = formatCurrency(totalCents);
+  updateCheckoutState();
+}
+
+function updateCheckoutState() {
+  const formData = new FormData(pickupForm);
+  const hasCartItems = cart.size > 0;
+  const hasName = formData.get("name").trim() !== "";
+  const hasPhone = formData.get("phone").trim() !== ""; 
+  const hasPickUp = formData.get("pickupOption") !== "";
+
+  const canCheckout = hasCartItems && hasName && hasPhone && hasPickUp;
+
+  checkoutButton.disabled = !canCheckout;
+ 
+      checkoutButton.textContent = canCheckout
+    ? "Review order"
+    : "Add items and pickup info to continue"; 
+
+
+ 
 }
 
 cartItemsContainer.addEventListener("click", (event) => {
@@ -116,6 +142,14 @@ cartItemsContainer.addEventListener("click", (event) => {
   if (removeButton) {
     removeFromCart(removeButton.dataset.remove);
   }
+}); 
+
+checkoutButton.addEventListener("click", () => {
+  checkoutMessage.textContent =
+    "Order preview ready. Backend submission comes in a later phase.";
 });
+
+pickupForm.addEventListener("input", updateCheckoutState);
+document.addEventListener("click", updateCheckoutState);
 
 renderMenu();

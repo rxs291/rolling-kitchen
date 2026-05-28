@@ -48,23 +48,53 @@
         <form class="pickup-form">
           <label>
             Pickup name
-            <input type="text" name="name" placeholder="Your name" disabled />
+            <input type="text" name="name" placeholder="Your name" required />
           </label>
+
           <label>
             Phone number
             <input
               type="tel"
               name="phone"
               placeholder="For order updates"
-              disabled
+              required
             />
           </label>
+
+          <label>
+            Pickup option
+            <select name="pickupOption" required>
+              <option value="">Choose pickup timing</option>
+              <option value="asap">As soon as possible</option>
+              <option value="scheduled">Schedule for later</option>
+            </select>
+          </label>
+
+          <label>
+            Order notes
+            <textarea
+              name="notes"
+              placeholder="Sauces, allergies, or pickup notes"
+            ></textarea>
+          </label>
+
           <button class="checkout-button" type="button" disabled>
-            Checkout coming in a later phase
+            Add items and pickup info to continue
           </button>
+
+          <p
+            id="checkout-message"
+            class="checkout-message"
+            aria-live="polite"
+          ></p>
         </form>
         <p class="phase-note">
-          No order is submitted and no payment is collected in this version.
+          <strong
+            ><i>
+              No order is submitted and no payment is collected in this
+              version.</i
+            ></strong
+          >
         </p>
       </aside>
     </main>
