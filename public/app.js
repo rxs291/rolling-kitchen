@@ -85,6 +85,7 @@ function renderCart() {
   if (cart.size === 0) {
     cartItemsContainer.innerHTML = '<p class="empty-state">Nothing added yet.</p>';
     cartTotal.textContent = formatCurrency(0);
+    updateCheckoutState();
     return;
   }
 
@@ -128,12 +129,7 @@ function updateCheckoutState() {
 
   checkoutButton.disabled = !canCheckout;
  
-      checkoutButton.textContent = canCheckout
-    ? "Review order"
-    : "Add items and pickup info to continue"; 
-
-
- 
+  checkoutButton.textContent = canCheckout ? "Review order" : "Add items and pickup info to continue";  
 }
 
 cartItemsContainer.addEventListener("click", (event) => {
@@ -149,7 +145,5 @@ checkoutButton.addEventListener("click", () => {
     "Order preview ready. Backend submission comes in a later phase.";
 });
 
-pickupForm.addEventListener("input", updateCheckoutState);
-document.addEventListener("click", updateCheckoutState);
-
+pickupForm.addEventListener("input", updateCheckoutState); 
 renderMenu();
