@@ -93,17 +93,17 @@ real business workflow until all test-mode behavior is understood and tested.
 - [x] Add this project guide and a progress/save-point document.
 - [x] Add the initial static site scaffold.
 - [x] Open the static page locally and confirm it renders.
-- [ ] Make the first Git commit after reviewing the new files.
+- [x] Make the first Git commit after reviewing the new files.
 
 Result: a documented local project with an initial site ready for version
 control history.
 
 ### Phase 1: Establish the GitHub Repository
 
-- [ ] Create an empty GitHub repository for this project.
-- [ ] Add that GitHub repository as the local `origin` remote.
-- [ ] Push the local `main` branch to GitHub.
-- [ ] Confirm that secret files such as `.dev.vars` and `.env` are ignored.
+- [x] Create an empty GitHub repository for this project.
+- [x] Add that GitHub repository as the local `origin` remote.
+- [x] Push the local `main` branch to GitHub.
+- [x] Confirm that secret files such as `.dev.vars` and `.env` are ignored.
 
 Result: the project has a remote source-of-truth repository that Cloudflare
 can use for deployment.

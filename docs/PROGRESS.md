@@ -5,10 +5,11 @@ work session or whenever a meaningful decision changes.
 
 ## Current Status
 
-**Current phase:** Phase 0 complete except for review and initial commit  
+**Current phase:** Phase 1 complete; ready for Phase 2 Cloudflare Pages deployment
 **Last updated:** 2026-05-27  
-**Project state:** Initial local scaffold has been created and verified. No deployment,
-backend, database, or payment configuration exists yet.
+**Project state:** Initial local scaffold has been created, verified, committed,
+and pushed to GitHub. No deployment, backend, database, or payment configuration
+exists yet.
 
 ## Goal
 
@@ -35,17 +36,22 @@ can display and manage that paid order.
 - Added documentation and a minimal static-page scaffold.
 - Verified the static customer menu, browser-only cart update, and navigation
   to the staff dashboard placeholder.
+- Made the first local Git commit.
+- Connected the local repository to GitHub at
+  `git@github.com:rxs291/rolling-kitchen.git`.
+- Pushed the local `main` branch to `origin/main`.
 
 ## In Progress
 
-- Review the scaffold before the first commit and GitHub repository connection.
+- Prepare the static scaffold for Cloudflare Pages deployment.
 
 ## Next Actions
 
-1. Review the initial files and choose the GitHub repository name.
-2. Make the first commit only after review.
-3. Create/connect the GitHub remote and then deploy the static site to
-   Cloudflare Pages.
+1. Create a Cloudflare Pages project connected to the GitHub repository.
+2. Configure Cloudflare Pages to serve the `public/` directory.
+3. Deploy the static site with no backend behavior yet.
+4. Open the deployed Pages URL on a phone and a computer.
+5. Confirm the menu and cart interface loads correctly on both devices.
 
 ## Important Boundaries
 
@@ -99,3 +105,26 @@ Verification completed:
 - Added Street Tacos and confirmed the cart total changed to `$9.50`.
 - Followed the staff-screen link and confirmed the placeholder dashboard
   renders.
+
+### 2026-05-27 - GitHub Repository Established
+
+Planned outcome:
+
+- Save the scaffold in local Git history.
+- Connect the local repository to GitHub.
+- Push the initial project checkpoint to the remote repository.
+
+Verification completed:
+
+- Confirmed the active local branch is `main`.
+- Confirmed `main` tracks `origin/main`.
+- Confirmed the remote repository URL is
+  `git@github.com:rxs291/rolling-kitchen.git`.
+- Confirmed the latest local commit exists on the GitHub remote.
+- Confirmed the working tree is clean after the push.
+
+Notes for resuming:
+
+- The next phase is Cloudflare Pages deployment of the static `public/` site.
+- Do not add backend, database, or payment code before the static deployment is
+  verified.
