@@ -5,11 +5,12 @@ work session or whenever a meaningful decision changes.
 
 ## Current Status
 
-**Current phase:** Phase 1 complete; ready for Phase 2 Cloudflare Pages deployment
-**Last updated:** 2026-05-27  
+**Current phase:** Phase 3 complete; ready for Phase 4 backend health endpoint
+**Last updated:** 2026-05-28
 **Project state:** Initial local scaffold has been created, verified, committed,
-and pushed to GitHub. No deployment, backend, database, or payment configuration
-exists yet.
+pushed to GitHub, and deployed through Cloudflare Workers static assets. The
+browser-only cart and pickup form now support basic customer input validation.
+No backend API, database, or payment configuration exists yet.
 
 ## Goal
 
@@ -22,8 +23,8 @@ can display and manage that paid order.
 | Area | Current decision |
 | --- | --- |
 | Front end | HTML, CSS, vanilla JavaScript |
-| Hosting | Cloudflare Pages |
-| Backend | Cloudflare Pages Functions |
+| Hosting | Cloudflare Workers static assets |
+| Backend | Cloudflare Workers |
 | Database | Cloudflare D1 |
 | Payments | Stripe Checkout, test mode first |
 | Staff protection | Cloudflare Access, later phase |
@@ -40,25 +41,34 @@ can display and manage that paid order.
 - Connected the local repository to GitHub at
   `git@github.com:rxs291/rolling-kitchen.git`.
 - Pushed the local `main` branch to `origin/main`.
+- Deployed the static site through Cloudflare Workers static assets.
+- Verified the deployed site works on multiple devices.
+- Added browser-only pickup form fields for name, phone, pickup option, and
+  notes.
+- Added checkout-button state logic so the simulated checkout is available only
+  when the cart and required pickup fields are complete.
 
 ## In Progress
 
-- Prepare the static scaffold for Cloudflare Pages deployment.
+- Start the first backend endpoint for a small deployed health check.
 
 ## Next Actions
 
-1. Create a Cloudflare Pages project connected to the GitHub repository.
-2. Configure Cloudflare Pages to serve the `public/` directory.
-3. Deploy the static site with no backend behavior yet.
-4. Open the deployed Pages URL on a phone and a computer.
-5. Confirm the menu and cart interface loads correctly on both devices.
+1. Inspect the Cloudflare-generated `cloudflare/workers-autoconfig` branch
+   before adding backend files.
+2. Add a small `GET /api/health` endpoint.
+3. Deploy it and confirm the public site can request it successfully.
+4. Keep fake order submission, D1 storage, and payment work out of this first
+   backend checkpoint.
 
 ## Important Boundaries
 
 - No real payments are enabled.
 - No Stripe account values or secrets have been created or stored.
 - No database exists and no schema migration has been run.
-- No Cloudflare project has been configured.
+- A Cloudflare Worker deployment exists at
+  `https://rolling-kitchen.sarchan-rex.workers.dev`.
+- Cloudflare created a remote `cloudflare/workers-autoconfig` branch.
 - No package dependencies are installed.
 
 ## Decisions Log
@@ -69,6 +79,7 @@ can display and manage that paid order.
 | 2026-05-27 | Use vanilla HTML/CSS/JavaScript first. | This keeps the learning focus on data flow rather than a framework. |
 | 2026-05-27 | Build a browser staff dashboard before POS integration. | It is the smallest way to prove that orders arrive on another device. |
 | 2026-05-27 | Poll for new orders before using WebSockets. | Simple polling is sufficient for the first milestone and easier to debug. |
+| 2026-05-28 | Use Cloudflare Workers static assets for the deployed static site. | Cloudflare configured this project through the newer Workers static-assets flow, which still supports the planned static frontend and later backend endpoints. |
 
 ## Session Log
 
@@ -125,6 +136,52 @@ Verification completed:
 
 Notes for resuming:
 
-- The next phase is Cloudflare Pages deployment of the static `public/` site.
+- The next phase is Cloudflare deployment of the static `public/` site.
 - Do not add backend, database, or payment code before the static deployment is
   verified.
+
+### 2026-05-28 - Cloudflare Deployment Verified
+
+Planned outcome:
+
+- Deploy the static site from GitHub to Cloudflare.
+- Confirm the deployed customer and staff pages load on multiple devices.
+
+Verification completed:
+
+- Confirmed the deployed URL works:
+  `https://rolling-kitchen.sarchan-rex.workers.dev`.
+- Confirmed the customer-facing menu/cart page loads from the deployed URL.
+- Confirmed the staff placeholder page can be opened from the deployed URL.
+- Confirmed the deployment uses Cloudflare Workers static assets rather than
+  the older classic Pages-only flow.
+
+Notes for resuming:
+
+- Do not change Cloudflare bindings, databases, secrets, or domain settings
+  until a specific phase requires them.
+- Inspect the Cloudflare-generated `cloudflare/workers-autoconfig` branch
+  before adding backend Worker code.
+
+### 2026-05-28 - Browser-Only Cart And Pickup Form
+
+Planned outcome:
+
+- Complete the browser-only cart and pickup form checkpoint before backend
+  work.
+- Keep checkout simulated and avoid submitting any customer data.
+
+Verification completed:
+
+- Cart items can be added and removed.
+- Cart totals update using prices stored as integer cents.
+- Pickup name, phone, pickup option, and notes are available in the form.
+- The simulated checkout button remains disabled until the cart has items and
+  required pickup fields are complete.
+- The checkout action displays a browser-only message explaining that backend
+  submission comes later.
+
+Notes for resuming:
+
+- The next phase is the smallest backend proof: `GET /api/health`.
+- Fake order submission and database persistence belong to later checkpoints.

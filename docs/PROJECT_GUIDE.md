@@ -61,8 +61,8 @@ flow works:
 | --- | --- | --- |
 | User interface | HTML, CSS, vanilla JavaScript | The browser and HTTP flow stay visible while learning. |
 | Source control | GitHub repository | Supports history and Cloudflare deployment connection. |
-| Static hosting | Cloudflare Pages | Fits a static site and connects to GitHub. |
-| Server-side endpoints | Cloudflare Pages Functions | Adds backend behavior without managing a server. |
+| Static hosting | Cloudflare Workers static assets | Fits the current Cloudflare deployment and connects to GitHub. |
+| Server-side endpoints | Cloudflare Workers | Adds backend behavior without managing a server. |
 | Stored orders | Cloudflare D1 | Simple managed SQL storage within Cloudflare. |
 | Payment collection | Stripe Checkout in test mode | Stripe handles card entry while we handle order logic. |
 | Staff access protection | Cloudflare Access | Avoids building insecure custom authentication first. |
@@ -108,32 +108,33 @@ control history.
 Result: the project has a remote source-of-truth repository that Cloudflare
 can use for deployment.
 
-### Phase 2: Deploy the Static Website to Cloudflare Pages
+### Phase 2: Deploy the Static Website to Cloudflare
 
-- [ ] Create a Cloudflare Pages project connected to the GitHub repository.
-- [ ] Configure the deploy output to serve the files from `public/`.
-- [ ] Deploy the static site with no backend behavior yet.
-- [ ] Open the public Pages URL on a phone and a computer.
-- [ ] Confirm the menu and cart interface loads on both devices.
+- [x] Create a Cloudflare project connected to the GitHub repository.
+- [x] Configure Cloudflare to serve the files from `public/`.
+- [x] Deploy the static site with no backend behavior yet.
+- [x] Open the public URL on a phone and a computer.
+- [x] Confirm the menu and cart interface loads on both devices.
 
 Result: the customer-facing static site is available online through
 Cloudflare, but it does not submit real orders.
 
 ### Phase 3: Complete the Browser-Only Menu and Cart
 
-- [ ] Define a small hardcoded menu in JavaScript with prices in cents.
-- [ ] Add and remove items from a cart.
-- [ ] Calculate quantity and total correctly.
-- [ ] Collect customer name, phone, pickup preference, and order notes.
-- [ ] Validate required inputs in the browser for user feedback.
-- [ ] Keep checkout disabled or simulated until backend validation exists.
+- [x] Define a small hardcoded menu in JavaScript with prices in cents.
+- [x] Add and remove items from a cart.
+- [x] Calculate quantity and total correctly.
+- [x] Collect customer name, phone, pickup preference, and order notes.
+- [x] Validate required inputs in the browser for user feedback.
+- [x] Keep checkout disabled or simulated until backend validation exists.
 
 Result: customers can assemble an order in their browser, but no trusted order
 is created yet.
 
-### Phase 4: Add the First Cloudflare Backend Function
+### Phase 4: Add the First Cloudflare Backend Endpoint
 
-- [ ] Learn the Pages Functions folder convention for API endpoints.
+- [ ] Inspect the Cloudflare-generated Workers configuration before adding
+      backend files.
 - [ ] Create a simple health/check endpoint such as `GET /api/health`.
 - [ ] Deploy it and confirm the public site can request it successfully.
 - [ ] Add a `POST /api/orders` prototype endpoint for fake orders only.
