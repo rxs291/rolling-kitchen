@@ -3,20 +3,20 @@ const menu = [
     id: "street-tacos",
     name: "Street Tacos",
     description: "Three grilled chicken tacos, onion, cilantro, and lime.",
-    priceCents: 950
+    priceCents: 950,
   },
   {
     id: "loaded-fries",
     name: "Loaded Fries",
     description: "Crispy fries, queso, pico, crema, and pickled jalapeno.",
-    priceCents: 800
+    priceCents: 800,
   },
   {
     id: "limeade",
     name: "Fresh Limeade",
     description: "Cold limeade with mint and sparkling water.",
-    priceCents: 350
-  }
+    priceCents: 350,
+  },
 ];
 
 const cart = new Map();
@@ -31,14 +31,13 @@ const checkoutMessage = document.querySelector("#checkout-message");
 function formatCurrency(priceCents) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD"
+    currency: "USD",
   }).format(priceCents / 100);
 }
 
 function addToCart(itemId) {
   cart.set(itemId, (cart.get(itemId) || 0) + 1);
-  renderCart(); 
- 
+  renderCart();
 }
 
 function removeFromCart(itemId) {
@@ -50,9 +49,8 @@ function removeFromCart(itemId) {
     cart.set(itemId, newQuantity);
   }
 
-  renderCart(); 
+  renderCart();
 }
- 
 
 function renderMenu() {
   menuContainer.innerHTML = menu
@@ -68,7 +66,7 @@ function renderMenu() {
             <button type="button" data-add="${item.id}">Add</button>
           </div>
         </article>
-      `
+      `,
     )
     .join("");
 
@@ -83,7 +81,8 @@ function renderMenu() {
 
 function renderCart() {
   if (cart.size === 0) {
-    cartItemsContainer.innerHTML = '<p class="empty-state">Nothing added yet.</p>';
+    cartItemsContainer.innerHTML =
+      '<p class="empty-state">Nothing added yet.</p>';
     cartTotal.textContent = formatCurrency(0);
     updateCheckoutState();
     return;
@@ -122,14 +121,16 @@ function updateCheckoutState() {
   const formData = new FormData(pickupForm);
   const hasCartItems = cart.size > 0;
   const hasName = formData.get("name").trim() !== "";
-  const hasPhone = formData.get("phone").trim() !== ""; 
+  const hasPhone = formData.get("phone").trim() !== "";
   const hasPickUp = formData.get("pickupOption") !== "";
 
   const canCheckout = hasCartItems && hasName && hasPhone && hasPickUp;
 
   checkoutButton.disabled = !canCheckout;
- 
-  checkoutButton.textContent = canCheckout ? "Review order" : "Add items and pickup info to continue";  
+
+  checkoutButton.textContent = canCheckout
+    ? "Review order"
+    : "Add items and pickup info to continue";
 }
 
 cartItemsContainer.addEventListener("click", (event) => {
@@ -138,12 +139,12 @@ cartItemsContainer.addEventListener("click", (event) => {
   if (removeButton) {
     removeFromCart(removeButton.dataset.remove);
   }
-}); 
+});
 
 checkoutButton.addEventListener("click", () => {
   checkoutMessage.textContent =
     "Order preview ready. Backend submission comes in a later phase.";
 });
 
-pickupForm.addEventListener("input", updateCheckoutState); 
+pickupForm.addEventListener("input", updateCheckoutState);
 renderMenu();

@@ -1,0 +1,23 @@
+{
+  "name": "rolling-kitchen",
+  "version": "1.0.0",
+  "description": "Practice food truck ordering app using Cloudflare Workers",
+  "homepage": "https://github.com/rxs291/rolling-kitchen#readme",
+  "bugs": {
+    "url": "https://github.com/rxs291/rolling-kitchen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rxs291/rolling-kitchen.git"
+  },
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "Ki Sar",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.95.0"
+  }
+}
