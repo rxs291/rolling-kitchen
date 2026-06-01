@@ -5,12 +5,13 @@ work session or whenever a meaningful decision changes.
 
 ## Current Status
 
-**Current phase:** Phase 3 complete; ready for Phase 4 backend health endpoint
-**Last updated:** 2026-05-28
+**Current phase:** Phase 4 complete; ready for Phase 5 D1 database planning
+**Last updated:** 2026-05-30
 **Project state:** Initial local scaffold has been created, verified, committed,
 pushed to GitHub, and deployed through Cloudflare Workers static assets. The
 browser-only cart and pickup form now support basic customer input validation.
-No backend API, database, or payment configuration exists yet.
+The first Cloudflare Worker API route is working locally and in production. No
+database or payment configuration exists yet.
 
 ## Goal
 
@@ -29,6 +30,7 @@ can display and manage that paid order.
 | Payments | Stripe Checkout, test mode first |
 | Staff protection | Cloudflare Access, later phase |
 | Order refresh | Polling first, not WebSockets |
+| Local backend testing | Wrangler dev server, curl, and jq |
 
 ## Completed Work
 
@@ -47,19 +49,24 @@ can display and manage that paid order.
   notes.
 - Added checkout-button state logic so the simulated checkout is available only
   when the cart and required pickup fields are complete.
+- Added npm project tooling with Wrangler as a development dependency.
+- Added a root `wrangler.jsonc` configuration for Cloudflare Workers static
+  assets and a Worker entry at `src/index.js`.
+- Added `GET /api/health` as the first backend health-check endpoint.
+- Verified the health endpoint locally with Wrangler and `curl`.
+- Merged the Phase 4 feature branch into `main` and verified the endpoint on
+  the deployed Cloudflare Worker.
 
 ## In Progress
 
-- Start the first backend endpoint for a small deployed health check.
+- Plan the smallest Cloudflare D1 schema for fake unpaid/test orders.
 
 ## Next Actions
 
-1. Inspect the Cloudflare-generated `cloudflare/workers-autoconfig` branch
-   before adding backend files.
-2. Add a small `GET /api/health` endpoint.
-3. Deploy it and confirm the public site can request it successfully.
-4. Keep fake order submission, D1 storage, and payment work out of this first
-   backend checkpoint.
+1. Review the proposed `orders` table shape before creating any database.
+2. Decide which fields are required for the fake-order phase.
+3. Create a Phase 5 feature branch before database work.
+4. Keep Stripe, real payments, and staff authentication out of Phase 5.
 
 ## Important Boundaries
 
@@ -69,7 +76,8 @@ can display and manage that paid order.
 - A Cloudflare Worker deployment exists at
   `https://rolling-kitchen.sarchan-rex.workers.dev`.
 - Cloudflare created a remote `cloudflare/workers-autoconfig` branch.
-- No package dependencies are installed.
+- `wrangler` is installed as a local development dependency for testing and
+  deployment workflows.
 
 ## Decisions Log
 
@@ -80,6 +88,9 @@ can display and manage that paid order.
 | 2026-05-27 | Build a browser staff dashboard before POS integration. | It is the smallest way to prove that orders arrive on another device. |
 | 2026-05-27 | Poll for new orders before using WebSockets. | Simple polling is sufficient for the first milestone and easier to debug. |
 | 2026-05-28 | Use Cloudflare Workers static assets for the deployed static site. | Cloudflare configured this project through the newer Workers static-assets flow, which still supports the planned static frontend and later backend endpoints. |
+| 2026-05-29 | Use a feature branch for Phase 4 backend work. | Practicing branch-based work keeps `main` stable while a phase is being built and reviewed. |
+| 2026-05-29 | Add Wrangler as a local development dependency. | Local Worker testing before deployment is closer to professional backend workflow than relying only on Cloudflare production deploys. |
+| 2026-05-30 | Treat Phase 4 as the backend health-check milestone only. | The project proved Worker routing and local/live API testing first; fake order submission is safer after Phase 5 D1 schema planning. |
 
 ## Session Log
 
@@ -185,3 +196,62 @@ Notes for resuming:
 
 - The next phase is the smallest backend proof: `GET /api/health`.
 - Fake order submission and database persistence belong to later checkpoints.
+
+### 2026-05-29 - Phase 4 Backend Health Endpoint
+
+Planned outcome:
+
+- Add the smallest possible backend endpoint to prove that the Cloudflare
+  Worker can handle API requests while still serving the static frontend.
+- Add local backend testing with Wrangler before deploying to Cloudflare.
+- Practice feature-branch work for a phase.
+
+Files introduced:
+
+- `package.json`
+- `package-lock.json`
+- `wrangler.jsonc`
+- `src/index.js`
+
+Implementation details:
+
+- Added Wrangler as a local development dependency.
+- Added npm scripts:
+  - `npm run dev` starts `wrangler dev`.
+  - `npm run deploy` runs `wrangler deploy`.
+- Configured `wrangler.jsonc` with:
+  - Worker name `rolling-kitchen`.
+  - Worker entry `src/index.js`.
+  - Static asset directory `public`.
+  - Asset binding `ASSETS`.
+  - `run_worker_first` for `/api/*` routes.
+- Added `src/index.js` with:
+  - `GET /api/health` returning JSON health-check data.
+  - A JSON `404` response for unknown `/api/*` routes.
+  - Static asset fallback through `env.ASSETS.fetch(request)`.
+
+Verification completed:
+
+- Created and worked on feature branch `codex/phase-4-health-endpoint`.
+- Ran the Worker locally with Wrangler.
+- Confirmed local health endpoint:
+  `curl -i http://localhost:8787/api/health`.
+- Confirmed local unknown API route:
+  `curl -i http://localhost:8787/api/not-real`.
+- Confirmed local static homepage:
+  `curl -I http://localhost:8787/`.
+- Used `jq` locally to format JSON curl responses for easier inspection.
+- Ran `npx wrangler deploy --dry-run` to validate the Worker config without
+  publishing.
+- Merged the feature branch into `main` and pushed to GitHub.
+- Confirmed the deployed health endpoint works:
+  `https://rolling-kitchen.sarchan-rex.workers.dev/api/health`.
+- Confirmed the deployed unknown API route returns JSON `404`.
+- Confirmed the deployed homepage still returns `200 OK`.
+
+Notes for resuming:
+
+- `jq` is a local developer convenience, not a project dependency.
+- Do not create D1 resources or migrations until the Phase 5 schema is reviewed.
+- Future phase work should continue using feature branches before merging to
+  `main`.

@@ -133,16 +133,17 @@ is created yet.
 
 ### Phase 4: Add the First Cloudflare Backend Endpoint
 
-- [ ] Inspect the Cloudflare-generated Workers configuration before adding
+- [x] Inspect the Cloudflare-generated Workers configuration before adding
       backend files.
-- [ ] Create a simple health/check endpoint such as `GET /api/health`.
-- [ ] Deploy it and confirm the public site can request it successfully.
-- [ ] Add a `POST /api/orders` prototype endpoint for fake orders only.
-- [ ] On the server side, validate allowable menu item IDs and calculate
-      prices again instead of trusting totals sent by the browser.
+- [x] Add local Node/npm project tooling for Wrangler.
+- [x] Create a simple health/check endpoint such as `GET /api/health`.
+- [x] Test the Worker locally with Wrangler and curl before deployment.
+- [x] Deploy it and confirm the public site can request it successfully.
+- [x] Confirm unknown `/api/*` routes return a JSON `404`.
 
 Result: the public website can send data to code running on Cloudflare, and
-the backend understands the difference between trusted and untrusted values.
+the project has a local-first workflow for testing backend routes before
+deployment.
 
 ### Phase 5: Create D1 Storage for Fake Orders
 
@@ -150,6 +151,9 @@ the backend understands the difference between trusted and untrusted values.
 - [ ] Review and approve the schema before creating or migrating the database.
 - [ ] Create a D1 development database and bind it to the Pages project.
 - [ ] Add a migration for an `orders` table.
+- [ ] Add a `POST /api/orders` prototype endpoint for fake orders only.
+- [ ] On the server side, validate allowable menu item IDs and calculate prices
+      again instead of trusting totals sent by the browser.
 - [ ] Store submitted fake orders with a `new` status.
 - [ ] Query the saved orders through an API endpoint.
 - [ ] Keep fake orders visibly labeled as unpaid/test data.
@@ -255,6 +259,8 @@ money.
 ## Working Rules For This Project
 
 - Build one phase at a time and update `docs/PROGRESS.md` after each session.
+- Codex should update `docs/PROGRESS.md` at phase boundaries, after meaningful
+  implementation checkpoints, and whenever the project direction changes.
 - Keep payment work in Stripe test mode until an explicit production decision.
 - Never commit keys, webhook secrets, customer data exports, or local secret
   files.
@@ -262,9 +268,12 @@ money.
   discussing the reason and trade-off.
 - Before schema changes, deployment configuration, packages, or authentication
   changes, review the intended change and rollback path.
+- Use feature branches for phase work, review the changes, then merge to
+  `main` after verification.
+- Prefer local verification before deployment when backend behavior is involved.
 
 ## Definition Of The Next Step
 
-The immediate next step after reviewing this scaffold is to open and verify
-the static page locally, then create the first Git commit and GitHub
-repository when approved.
+The immediate next step is Phase 5 database planning: review the smallest D1
+schema needed for fake unpaid/test orders before creating a database or running
+any migration.
