@@ -12,4 +12,11 @@
     "run_worker_first": ["/api/*"],
   },
   "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rolling-kitchen-orders",
+      "database_id": "750b87b2-0577-4bd5-b589-30c1a6dedec1",
+    },
+  ],
 }

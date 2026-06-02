@@ -141,9 +141,45 @@ cartItemsContainer.addEventListener("click", (event) => {
   }
 });
 
-checkoutButton.addEventListener("click", () => {
-  checkoutMessage.textContent =
-    "Order preview ready. Backend submission comes in a later phase.";
+checkoutButton.addEventListener("click", async () => {
+  const formData = new FormData(pickupForm);
+  const orderRequest = {
+    customerName: formData.get("name").trim(),
+    customerPhone: formData.get("phone").trim(),
+    pickupOption: formData.get("pickupOption"),
+    notes: formData.get("notes").trim(),
+    items: Array.from(cart.entries()).map(([id, quantity]) => ({
+      id,
+      quantity,
+    })),
+  };
+
+  checkoutButton.disabled = true;
+  checkoutButton.textContent = "Sending fake order...";
+  checkoutMessage.textContent = "";
+
+  try {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderRequest),
+    });
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Unable to submit fake order.");
+    }
+
+    checkoutMessage.textContent = `Fake unpaid order ${result.order.displayId} was saved for testing.`;
+    cart.clear();
+    pickupForm.reset();
+    renderCart();
+  } catch (error) {
+    checkoutMessage.textContent = error.message;
+    updateCheckoutState();
+  }
 });
 
 pickupForm.addEventListener("input", updateCheckoutState);
