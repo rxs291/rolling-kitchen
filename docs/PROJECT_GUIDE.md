@@ -147,16 +147,16 @@ deployment.
 
 ### Phase 5: Create D1 Storage for Fake Orders
 
-- [ ] Design the smallest order table required for the fake-order phase.
-- [ ] Review and approve the schema before creating or migrating the database.
-- [ ] Create a D1 development database and bind it to the Pages project.
-- [ ] Add a migration for an `orders` table.
-- [ ] Add a `POST /api/orders` prototype endpoint for fake orders only.
-- [ ] On the server side, validate allowable menu item IDs and calculate prices
+- [x] Design the smallest order table required for the fake-order phase.
+- [x] Review and approve the schema before creating or migrating the database.
+- [x] Create a D1 development database and bind it to the Worker project.
+- [x] Add a migration for an `orders` table.
+- [x] Add a `POST /api/orders` prototype endpoint for fake orders only.
+- [x] On the server side, validate allowable menu item IDs and calculate prices
       again instead of trusting totals sent by the browser.
-- [ ] Store submitted fake orders with a `new` status.
-- [ ] Query the saved orders through an API endpoint.
-- [ ] Keep fake orders visibly labeled as unpaid/test data.
+- [x] Store submitted fake orders with a `new` status.
+- [x] Query the saved orders through an API endpoint.
+- [x] Keep fake orders visibly labeled as unpaid/test data.
 
 A simple starting shape to review before implementation:
 

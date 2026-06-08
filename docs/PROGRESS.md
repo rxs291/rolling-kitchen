@@ -5,13 +5,13 @@ work session or whenever a meaningful decision changes.
 
 ## Current Status
 
-**Current phase:** Phase 4 complete; ready for Phase 5 D1 database planning
-**Last updated:** 2026-05-30
+**Current phase:** Phase 5 complete; ready for Phase 6 staff order dashboard
+**Last updated:** 2026-06-08
 **Project state:** Initial local scaffold has been created, verified, committed,
 pushed to GitHub, and deployed through Cloudflare Workers static assets. The
 browser-only cart and pickup form now support basic customer input validation.
-The first Cloudflare Worker API route is working locally and in production. No
-database or payment configuration exists yet.
+Cloudflare Worker API routes and D1 fake-order storage are working locally and
+in production. No payment or staff authentication configuration exists yet.
 
 ## Goal
 
@@ -56,23 +56,34 @@ can display and manage that paid order.
 - Verified the health endpoint locally with Wrangler and `curl`.
 - Merged the Phase 4 feature branch into `main` and verified the endpoint on
   the deployed Cloudflare Worker.
+- Created the Cloudflare D1 database `rolling-kitchen-orders` with binding `DB`.
+- Added and applied the `orders` table migration locally and remotely.
+- Added `POST /api/orders` with server-side item validation and trusted price
+  recalculation.
+- Added `GET /api/orders` for retrieving saved fake orders.
+- Connected the browser checkout form to save visibly unpaid/test orders.
+- Verified a fake production order through Insomnia and curl.
 
 ## In Progress
 
-- Plan the smallest Cloudflare D1 schema for fake unpaid/test orders.
+- Prepare the staff order dashboard to display and manage saved fake orders.
 
 ## Next Actions
 
-1. Review the proposed `orders` table shape before creating any database.
-2. Decide which fields are required for the fake-order phase.
-3. Create a Phase 5 feature branch before database work.
-4. Keep Stripe, real payments, and staff authentication out of Phase 5.
+1. Create a Phase 6 feature branch.
+2. Replace the staff placeholder with an order list fetched from
+   `GET /api/orders`.
+3. Display active fake orders oldest-first and poll approximately every five
+   seconds.
+4. Add and validate backend order-status updates.
+5. Keep Stripe and staff authentication out of Phase 6.
 
 ## Important Boundaries
 
 - No real payments are enabled.
 - No Stripe account values or secrets have been created or stored.
-- No database exists and no schema migration has been run.
+- The D1 database `rolling-kitchen-orders` exists and its first migration has
+  been applied locally and remotely.
 - A Cloudflare Worker deployment exists at
   `https://rolling-kitchen.sarchan-rex.workers.dev`.
 - Cloudflare created a remote `cloudflare/workers-autoconfig` branch.
@@ -91,6 +102,9 @@ can display and manage that paid order.
 | 2026-05-29 | Use a feature branch for Phase 4 backend work. | Practicing branch-based work keeps `main` stable while a phase is being built and reviewed. |
 | 2026-05-29 | Add Wrangler as a local development dependency. | Local Worker testing before deployment is closer to professional backend workflow than relying only on Cloudflare production deploys. |
 | 2026-05-30 | Treat Phase 4 as the backend health-check milestone only. | The project proved Worker routing and local/live API testing first; fake order submission is safer after Phase 5 D1 schema planning. |
+| 2026-06-08 | Keep menu products in trusted backend code for Phase 5. | The backend can reject unknown item IDs and recalculate prices without adding product administration or another database table. |
+| 2026-06-08 | Store customer pickup details directly on each order. | Version one does not need customer accounts or customer identity management. |
+| 2026-06-08 | Use D1 local-first migrations, then apply the same pending migration remotely. | This allows database behavior to be tested safely before changing the production database. |
 
 ## Session Log
 
@@ -255,3 +269,57 @@ Notes for resuming:
 - Do not create D1 resources or migrations until the Phase 5 schema is reviewed.
 - Future phase work should continue using feature branches before merging to
   `main`.
+
+### 2026-06-08 - Phase 5 D1 Fake Order Storage
+
+Planned outcome:
+
+- Persist fake unpaid/test orders in Cloudflare D1.
+- Validate order contents and recalculate prices in the Worker.
+- Prove the browser-to-Worker-to-database path locally before production.
+
+Files introduced or updated:
+
+- `migrations/0001_create_orders.sql`
+- `wrangler.jsonc`
+- `src/index.js`
+- `public/app.js`
+
+Implementation details:
+
+- Created D1 database `rolling-kitchen-orders`.
+- Added the database to Wrangler with binding `DB`, available as `env.DB`.
+- Added the `orders` table with customer pickup fields, item JSON, totals,
+  payment/order statuses, and timestamps.
+- Kept trusted menu IDs and integer-cent prices in Worker code.
+- Added `POST /api/orders`:
+  - validates required customer fields
+  - validates pickup option and positive integer quantities
+  - rejects unknown menu item IDs
+  - recalculates line totals and order total on the server
+  - saves orders as `test_unpaid` and `new`
+- Added `GET /api/orders`, returning up to 50 saved orders as JSON.
+- Updated the browser checkout flow to submit only customer fields, item IDs,
+  and quantities, then show the returned display order ID.
+
+Verification completed:
+
+- Applied `0001_create_orders.sql` to the local D1 database.
+- Confirmed the clean local database started with zero orders.
+- Tested local order APIs before production deployment.
+- Merged Phase 5 into `main` and pushed to GitHub.
+- Applied pending migrations to the remote D1 database.
+- Submitted production order `RK-957801` through Insomnia.
+- Confirmed `POST /api/orders` returned `201 Created`, total `1900`,
+  `paymentStatus: test_unpaid`, and `orderStatus: new`.
+- Confirmed the same order through production `GET /api/orders` using curl.
+- Confirmed production `GET /api/health` and the static homepage still return
+  `200 OK`.
+
+Notes for resuming:
+
+- Production currently contains one explicit fake/test order created during
+  Phase 5 verification.
+- Staff access is still public and unprotected; Cloudflare Access is a later
+  phase.
+- The next phase is the staff order dashboard and status workflow.
